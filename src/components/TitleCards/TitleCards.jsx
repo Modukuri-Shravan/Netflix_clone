@@ -22,20 +22,11 @@ const [apidata,setapidata]=useState([])
 
   useEffect(()=>
   {
-    // fetch('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', options)
-    // .then(res => res.json())
-    // .then(res => setapidata(res.results))
-    // .catch(err => console.error(err));
-    // cardref.current.addEventListener("wheel",handlewheel);
-
-    fetch('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', { 
-      method: 'GET',
-      timeout: 10000 // Increase the timeout to 10 seconds (default is usually shorter)
-  })
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.error('Error fetching data:', error));
-  
+    fetch(`https://api.themoviedb.org/3/movie/${category?category:"now_playing"}?language=en-US&page=1`, options)
+    .then(res => res.json())
+    .then(res => setapidata(res.results))
+    .catch(err => console.error(err));
+    cardref.current.addEventListener("wheel",handlewheel);
 
   },[])
   return (
@@ -43,9 +34,8 @@ const [apidata,setapidata]=useState([])
       {title?title:<h2>popular on Netflix</h2>}
 <div className="card-list" ref={cardref}>
     {apidata.map((card,index) => {
-      // const imageUrl = `https://image.tmdb.org/t/p/w500${card.backdrop_path}`;
         return <div className="card" key={index}>
-            <img src={`https://image.tmdb.org/t/p/w500$`+card.backdrop_path} alt="" />
+            <img src={`https://image.tmdb.org/t/p/w500${card.backdrop_path}`} alt="" />
             <p className='card-name'>{card.original_title}</p>
         </div>
     })}
